@@ -16,6 +16,8 @@ class CatApiService {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
+            print('CATS HERE IN SERVICES');
+      print(jsonData);
       return jsonData.map((breedJson) => BreedModel.fromJson(breedJson)).toList();
     } else {
       throw Exception('Failed to load breeds');

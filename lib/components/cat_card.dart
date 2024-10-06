@@ -1,10 +1,14 @@
+import 'package:breeds_repository/breeds_repository.dart' as breeds;
 import 'package:flutter/material.dart';
 
 class CatCard extends StatelessWidget {
-  const CatCard({super.key});
+  final breeds.BreedModel cat;
+
+  const CatCard({super.key, required this.cat});
 
   @override
   Widget build(BuildContext context) {
+        double deviceWidth = MediaQuery.of(context).size.width;
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
@@ -15,39 +19,41 @@ class CatCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Raza',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  cat.name ?? 'Desconocido',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  'Más',
+                const Text(
+                  'Más...',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
             const SizedBox(height: 16),
             Center(
-              child: Image.asset(
-                'assets/gato.jpg',
-                width: 100,
-                height: 100,
+              child: Image.network(
+                cat.image.url!,
+                width: deviceWidth *0.8,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.error, size: 20);
+                },
               ),
             ),
             const SizedBox(height: 16),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'País',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  cat.origin ?? 'Desconocido',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'Inteligencia',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  cat.intelligence.toString(),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
