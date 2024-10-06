@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'package:breeds_repository/src/models/breed_model.dart';
 import 'package:breeds_repository/src/models/breed_response_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CatApiService {
-  final String apiKey;
-  final String baseUrl = 'https://api.thecatapi.com/v1/breeds';
+  final String apiKey = dotenv.env['API_KEY'] ?? '';
+  final String baseUrl = dotenv.env['BASE_URL'] ?? '';
 
-  CatApiService({required this.apiKey});
+  CatApiService();
 
   Future<BreedsResponse> fetchBreeds({int limit = 10, int page = 0}) async {
     final response = await http.get(
