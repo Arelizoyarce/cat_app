@@ -1,3 +1,4 @@
+import 'package:cat_app/components/components.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -112,6 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+                        const CustomSearchBar(),
+                        const CatCard()
           ],
         ),
       ),
