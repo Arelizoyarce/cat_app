@@ -11,9 +11,3 @@ class FetchMoreCatsEvent extends HomeEvent {
 
   FetchMoreCatsEvent(this.page);
 }
-
-class ShowDetailCatEvent extends HomeEvent {
-  final int id;
-
-  ShowDetailCatEvent(this.id);
-}

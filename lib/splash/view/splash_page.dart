@@ -9,13 +9,15 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<SplashCubit>().startSplashTimer();
-    double deviceWidth = MediaQuery.of(context).size.width;
+
     return BlocBuilder<SplashCubit, bool>(
       builder: (context, state) {
         if (state) {
-          Future.microtask(() => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const HomePage()),
-              ));
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const HomePage()),
+            );
+          });
         }
         return Scaffold(
           body: Center(
@@ -29,7 +31,7 @@ class SplashPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 Image.asset(
                   'assets/images/cat_icon.png',
-                  width: deviceWidth / 3,
+                  width: MediaQuery.of(context).size.width / 3,
                 ),
               ],
             ),

@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     super.initState();
@@ -25,6 +24,14 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void _onSearchChanged(String query) {
+    if (query.isNotEmpty) {
+      context.read<HomeBloc>().add(SearchCatsEvent(query));
+    } else {
+      context.read<HomeBloc>().add(FetchMoreCatsEvent(0));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +39,15 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Catbreeds'),
         centerTitle: true,
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
         child: Column(
           children: [
-            CustomSearchBar(),
-            SizedBox(height: 20,),
-            Expanded(
+            CustomSearchBar(onChanged: _onSearchChanged),
+            const SizedBox(
+              height: 20,
+            ),
+            const Expanded(
               child: CatCardList(),
             ),
           ],
@@ -47,4 +56,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({super.key});
+  final Function(String) onChanged;
+
+  const CustomSearchBar({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(
       buildCupertino: (context) => CupertinoTextField(
-        placeholder: 'Buscar',
+        placeholder: 'Search',
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         suffix: const Padding(
           padding: EdgeInsets.only(right: 8.0),
@@ -19,16 +21,24 @@ class CustomSearchBar extends StatelessWidget {
           border: Border.all(color: CupertinoColors.systemGrey, width: 1.0),
           borderRadius: BorderRadius.circular(8),
         ),
+        onChanged: (value) {
+          onChanged(value);
+        },
       ),
       buildMaterial: (context) => TextField(
         decoration: InputDecoration(
-          hintText: 'Buscar',
+          hintText: 'Search',
           hintStyle: TextStyle(color: Theme.of(context).hintColor),
-          suffixIcon: Icon(Icons.search, color: Theme.of(context).iconTheme.color),
+          suffixIcon:
+              Icon(Icons.search, color: Theme.of(context).iconTheme.color),
           border: _buildOutlineInputBorder(),
           focusedBorder: _buildOutlineInputBorder(),
-          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         ),
+        onChanged: (value) {
+          onChanged(value);
+        },
       ),
     );
   }

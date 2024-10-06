@@ -1,5 +1,6 @@
 import 'package:breeds_repository/breeds_repository.dart' as breeds;
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CatCard extends StatelessWidget {
   final breeds.BreedModel cat;
@@ -31,7 +32,8 @@ class CatCard extends StatelessWidget {
                 children: [
                   Text(
                     cat.name ?? 'Desconocido',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const Text(
                     'Más...',
@@ -41,17 +43,22 @@ class CatCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Center(
-                child: Image.network(
-                  cat.image.url ?? '',
+                child: SizedBox(
                   width: deviceWidth * 0.8,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const SizedBox(
-                      width: 100,
-                      height: 400,
-                      child: Icon(Icons.error, size: 20),
-                    );
-                  },
+                  child: CachedNetworkImage(
+                    imageUrl: cat.image.url ?? '',
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => const Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Icon(Icons.error, size: 20),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -60,11 +67,13 @@ class CatCard extends StatelessWidget {
                 children: [
                   Text(
                     cat.origin ?? 'Desconocido',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     cat.intelligence.toString(),
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

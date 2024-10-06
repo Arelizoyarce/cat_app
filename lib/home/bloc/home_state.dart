@@ -18,9 +18,3 @@ class HomeError extends HomeState {
 
   HomeError(this.message);
 }
-
-class HomeShowDetail extends HomeState {
-  final String id;
-
-  HomeShowDetail(this.id);
-}

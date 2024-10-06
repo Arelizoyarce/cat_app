@@ -55,7 +55,7 @@ class _CatCardListState extends State<CatCardList> {
       builder: (context, state) {
         if (state is HomeLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is HomeLoaded) {
+        } else if (state is HomeLoaded && state.cats.isNotEmpty) {
           return ListView.builder(
             controller: _scrollController,
             itemCount: state.cats.length,

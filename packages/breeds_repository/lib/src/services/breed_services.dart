@@ -34,7 +34,7 @@ class CatApiService {
   Future<List<BreedModel>> searchBreeds(
       {required String query, int limit = 10, int page = 0}) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/search?q=$query&limit=$limit&page=$page'),
+      Uri.parse('$baseUrl/search?q=$query'),
       headers: {'x-api-key': apiKey},
     );
 

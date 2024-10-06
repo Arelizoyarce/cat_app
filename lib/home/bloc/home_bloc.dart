@@ -11,11 +11,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(this._breedsRepository) : super(HomeInitial()) {
     on<SearchCatsEvent>(_onSearchCats);
     on<FetchMoreCatsEvent>(_onFetchMoreCats);
-    on<ShowDetailCatEvent>(_onShowDetailRoute);
   }
 
   Future<void> _onSearchCats(
-      SearchCatsEvent event, Emitter<HomeState> emit) async {}
+      SearchCatsEvent event, Emitter<HomeState> emit) async {
+    if (!_hasFetchedInitialData) {
+      emit(HomeLoading());
+    }
+    try {
+      final List<BreedModel> searchResults =
+          await _breedsRepository.searchCatBreeds(query: event.breed);
+      _allCats = searchResults;
+      emit(HomeLoaded(_allCats, hasReachedMax: true));
+    } catch (e) {
+      emit(HomeError(e.toString()));
+    }
+  }
 
   Future<void> _onFetchMoreCats(
       FetchMoreCatsEvent event, Emitter<HomeState> emit) async {
@@ -25,18 +36,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       final breedsResponse =
           await _breedsRepository.getCatBreeds(limit: 10, page: event.page);
-      _allCats.addAll(breedsResponse.breeds);
+      if (event.page == 0) {
+        _allCats = breedsResponse.breeds;
+      } else {
+        _allCats.addAll(breedsResponse.breeds);
+      }
       _totalCount = breedsResponse.totalCount;
-      print('PAGE ${event.page}');
-      print('TOTAL COUNT ${_totalCount}');
-      print('TOTAL ${_allCats.length}');
       emit(HomeLoaded(_allCats, hasReachedMax: _allCats.length >= _totalCount));
       _hasFetchedInitialData = true;
     } catch (e) {
       emit(HomeError(e.toString()));
     }
   }
-
-  Future<void> _onShowDetailRoute(
-      ShowDetailCatEvent event, Emitter<HomeState> emit) async {}
 }
