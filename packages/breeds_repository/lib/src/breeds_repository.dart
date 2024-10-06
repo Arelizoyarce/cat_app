@@ -1,4 +1,5 @@
 import 'package:breeds_repository/src/models/breed_model.dart';
+import 'package:breeds_repository/src/models/breed_response_model.dart';
 import 'package:breeds_repository/src/services/breed_services.dart';
 
 class CatBreedsRepository {
@@ -6,7 +7,7 @@ class CatBreedsRepository {
 
   CatBreedsRepository({required this.apiService});
 
-  Future<List<BreedModel>> getCatBreeds({int limit = 10, int page = 0}) {
+  Future<BreedsResponse> getCatBreeds({int limit = 10, int page = 0}) {
     return apiService.fetchBreeds(limit: limit, page: page);
   }
 
