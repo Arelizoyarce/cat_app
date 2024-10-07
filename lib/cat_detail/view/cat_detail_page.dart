@@ -1,5 +1,6 @@
 import 'package:breeds_repository/breeds_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CatDetailPage extends StatelessWidget {
   final BreedModel item;
@@ -8,17 +9,17 @@ class CatDetailPage extends StatelessWidget {
 
   static const String _unknown = 'Not available.';
 
-  Widget _buildText(String? text) {
+  Widget _buildText(String? text, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Text(
         text ?? _unknown,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
 
-  List<Widget> _buildAttributes(BreedModel item) {
+  List<Widget> _buildAttributes(BreedModel item, BuildContext context) {
     final attributes = [
       {'label': 'Country of origin:', 'value': item.origin},
       {'label': 'Intelligence:', 'value': item.intelligence?.toString()},
@@ -29,7 +30,7 @@ class CatDetailPage extends StatelessWidget {
     ];
 
     return attributes.map((attr) {
-      return _buildText('${attr['label']} ${attr['value']}');
+      return _buildText('${attr['label']} ${attr['value']}', context);
     }).toList();
   }
 
@@ -51,7 +52,7 @@ class CatDetailPage extends StatelessWidget {
               height: 300,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(item.image.url ?? ''),
+                  image: CachedNetworkImageProvider(item.image.url ?? ''),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -66,8 +67,8 @@ class CatDetailPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildText(item.description),
-                      ..._buildAttributes(item),
+                      _buildText(item.description, context),
+                      ..._buildAttributes(item, context),
                     ],
                   ),
                 ),

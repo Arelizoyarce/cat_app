@@ -1,5 +1,5 @@
-import 'package:meta/meta.dart';
 import 'dart:convert';
+import 'package:breeds_repository/src/models/models.dart';
 
 BreedModel breedModelFromJson(String str) => BreedModel.fromJson(json.decode(str));
 
@@ -166,53 +166,5 @@ class BreedModel {
         "hypoallergenic": hypoallergenic,
         "reference_image_id": referenceImageId,
         "image": image.toJson(),
-      };
-}
-
-class Image {
-  final String? id;
-  final int? width;
-  final int? height;
-  final String? url;
-
-  Image({
-    this.id,
-    this.width,
-    this.height,
-    this.url,
-  });
-
-  factory Image.fromJson(Map<String, dynamic>? json) => Image(
-        id: json?["id"],
-        width: json?["width"],
-        height: json?["height"],
-        url: json?["url"],
-      );
-
-  Map<String, dynamic>? toJson() => {
-        "id": id,
-        "width": width,
-        "height": height,
-        "url": url,
-      };
-}
-
-class Weight {
-  final String? imperial;
-  final String? metric;
-
-  Weight({
-    this.imperial,
-    this.metric,
-  });
-
-  factory Weight.fromJson(Map<String, dynamic>? json) => Weight(
-        imperial: json?["imperial"],
-        metric: json?["metric"],
-      );
-
-  Map<String, dynamic>? toJson() => {
-        "imperial": imperial,
-        "metric": metric,
       };
 }

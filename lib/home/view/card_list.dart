@@ -1,5 +1,6 @@
 import 'package:breeds_repository/breeds_repository.dart';
 import 'package:cat_app/components/cat_card.dart';
+import 'package:cat_app/components/components.dart';
 import 'package:cat_app/home/bloc/home_bloc.dart';
 import 'package:cat_app/home/bloc/home_event.dart';
 import 'package:cat_app/home/bloc/home_state.dart';
@@ -68,7 +69,7 @@ class _CatCardListState extends State<CatCardList> {
         } else if (state is HomeError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-        return const Center(child: Text('No data available.'));
+        return const NoDataWidget();
       },
     );
   }

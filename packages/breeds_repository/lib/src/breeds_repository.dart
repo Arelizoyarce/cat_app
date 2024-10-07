@@ -1,18 +1,30 @@
-import 'package:breeds_repository/src/models/breed_model.dart';
-import 'package:breeds_repository/src/models/breed_response_model.dart';
-import 'package:breeds_repository/src/services/breed_services.dart';
+import 'package:breeds_repository/src/models/models.dart';
+import 'package:breeds_repository/src/services/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CatBreedsRepository {
-  final CatApiService apiService;
+  final GetBreedsService getBreedsService;
+  final SearchBreedsService searchBreedsService;
 
-  CatBreedsRepository({required this.apiService});
+  CatBreedsRepository()
+      : getBreedsService = GetBreedsService(
+          _getApiKey(),
+          _getBaseUrl(),
+        ),
+        searchBreedsService = SearchBreedsService(
+          _getApiKey(),
+          _getBaseUrl(),
+        );
+
+  static String _getApiKey() => dotenv.env['API_KEY'] ?? '';
+
+  static String _getBaseUrl() => dotenv.env['BASE_URL'] ?? '';
 
   Future<BreedsResponse> getCatBreeds({int limit = 10, int page = 0}) {
-    return apiService.fetchBreeds(limit: limit, page: page);
+    return getBreedsService.fetchBreeds(limit: limit, page: page);
   }
 
-  Future<List<BreedModel>> searchCatBreeds(
-      {required String query, int limit = 10, int page = 0}) {
-    return apiService.searchBreeds(query: query, limit: limit, page: page);
+  Future<List<BreedModel>> searchCatBreeds({required String query}) {
+    return searchBreedsService.searchBreeds(query: query);
   }
 }
