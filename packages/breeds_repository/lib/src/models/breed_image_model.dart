@@ -11,6 +11,7 @@ class Image {
     this.url,
   });
 
+
   factory Image.fromJson(Map<String, dynamic>? json) => Image(
         id: json?["id"],
         width: json?["width"],
